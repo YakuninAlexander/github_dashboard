@@ -19,8 +19,8 @@ export const githubApi = createApi({
       }),
     }),
     getUserRepo: builder.query<IRepo, string>({
-      query: (url) => ({
-        url,
+      query: (fullName) => ({
+        url: `repos/${fullName}`,
       })
     })
   }),
