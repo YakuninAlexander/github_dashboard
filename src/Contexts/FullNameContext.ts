@@ -7,7 +7,7 @@ export interface IRepoContext {
 }
 
 const RepoInit = {
-  repoUrl: '',
+  repoUrl: localStorage.getItem('name') ?? '',
   setRepoUrl: (value: React.SetStateAction<string>) => {}
 } as IRepoContext
 

@@ -13,7 +13,7 @@ export const githubApi = createApi({
         url:`search/repositories`,
         params: {
           q: name,
-          per_page: 10,
+          per_page: 21,
           sort: 'stars',
         }
       }),
