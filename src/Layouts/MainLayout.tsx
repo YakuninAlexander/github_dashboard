@@ -1,5 +1,4 @@
-import React, { PropsWithChildren, ReactNode } from 'react';
-import { JsxChild } from 'typescript';
+import React, {  ReactNode } from 'react';
 
 interface MainLayoutProps {
   children: ReactNode
