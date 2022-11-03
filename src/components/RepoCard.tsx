@@ -3,11 +3,20 @@ import { FullNameContext } from '../Contexts/FullNameContext';
 import { useGetUserRepoQuery } from '../redux/github/github.api';
 import star from '../images/star.png'
 import watch from '../images/eye.png'
+import ErrorMsg from './ErrorMsg';
+import Loader from './Loader';
 
 export default function RepoCard() {
   const {repoUrl} = useContext(FullNameContext);
   const {isLoading, isError, data} = useGetUserRepoQuery(repoUrl);
 
+  if(isError) {
+    return <ErrorMsg />
+  } 
+
+  if(isLoading) {
+    return <Loader />
+  }
 
   return (
     <div className=' mx-auto max-h-fit p-5 bg-emerald-700 text-gray-100 rounded-md shadow-md mt-10 px-10'>
