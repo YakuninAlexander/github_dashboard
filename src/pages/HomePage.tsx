@@ -1,8 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ErrorMsg from '../components/ErrorMsg';
 import Loader from '../components/Loader';
 import MiniRepoCard from '../components/MiniRepoCard';
+import Paginator from '../components/Paginator';
 import SearchTab from '../components/SearchTab';
+import { MAX_PAGE } from '../const';
 import { SearchContext } from '../Contexts/SearchContext';
 import useDebounce from '../hooks/debounce';
 import MainLayout from '../Layouts/MainLayout';
@@ -10,13 +12,22 @@ import { useGetReposQuery } from '../redux/github/github.api';
 
 export default function HomePage( ) {
   const {search} = useContext(SearchContext)
+  const [page, setPage] = useState(1);
   const debounced = useDebounce(search)
+  
 
+  useEffect(() => {
+    setPage(1);
+  }, [debounced])
 
-  const {isLoading, isError, data} = useGetReposQuery(debounced, {
+  const {isLoading, isError, data} = useGetReposQuery({name: debounced,page}, {
     skip: debounced.length<1,
     refetchOnFocus: true
   })
+  
+  
+  const lastPage = data ? Math.ceil(data!.total_count / 21) : 0 
+  const lastResult = lastPage > MAX_PAGE ? MAX_PAGE : lastPage
 
   return(
     <MainLayout>
@@ -43,6 +54,7 @@ export default function HomePage( ) {
           })}
           </div>
       </div>
+      <Paginator lastPage={lastResult} page={page} setPage={setPage} />
     </MainLayout>
   )
 }
